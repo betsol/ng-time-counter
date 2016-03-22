@@ -126,7 +126,8 @@ You could easily write your own filter for this or use some third-party module.
 </ul>
 ```
 
-> @todo: give a link to the third-party filter module
+Please see [this question](http://stackoverflow.com/q/17648014/1056679) on Stack Overflow
+about padding filters.
 
 
 ### How do I pluralize/localize time unit labels?
