@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html ng-app="betsol.timeCounter.test">
+
+<head>
+    <title>betsol-ng-time-counter demo</title>
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.css">
+    <style>
+        .repo-button {
+            position: relative;
+            top: 10px;
+            float: right;
+        }
+        .timer .label {
+            font-size: 16px;
+            line-height: 40px;
+            padding: .3em .6em;
+        }
+    </style>
+</head>
+
+<body class="container-fluid" ng-controller="TestController as vm">
+
+    <h1>
+        betsol-ng-time-counter demo
+        <iframe
+            class="repo-button"
+            src="https://ghbtns.com/github-btn.html?user=betsol&repo=ng-time-counter&type=star&size=large"
+            frameborder="0"
+            scrolling="0"
+            width="90px"
+            height="30px"
+        ></iframe>
+    </h1>
+
+    <hr>
+
+    <h2>Future Date</h2>
+
+    <p class="text-info">Future date is displayed like countdown timer.</p>
+
+    <ul
+        class="timer list-unstyled row well"
+        bs-time-counter
+        date="vm.futureDate"
+        interval="100"
+        on-finish="vm.countdownComplete()"
+    >
+        <li class="col-sm-1">
+            <span class="label label-info">{{ years }}</span><br>
+            years
+        </li>
+        <li class="col-sm-1">
+            <span class="label label-info">{{ months }}</span><br>
+            months
+        </li>
+        <li class="col-sm-1">
+            <span class="label label-info">{{ days }}</span><br>
+            days
+        </li>
+        <li class="col-sm-1">
+            <span class="label label-primary">{{ hours }}</span><br>
+            hours
+        </li>
+        <li class="col-sm-1">
+            <span class="label label-primary">{{ minutes }}</span><br>
+            minutes
+        </li>
+        <li class="col-sm-1">
+            <span class="label label-primary">{{ seconds }}</span><br>
+            seconds
+        </li>
+        <li class="col-sm-1">
+            <span class="label label-warning">{{ milliseconds }}</span><br>
+            milliseconds
+        </li>
+    </ul>
+
+    <p class="text-info">
+        You can change date dynamically and timer will be updated accordingly.
+    </p>
+
+    <p class="text-info">
+        <strong>«onFinish»</strong> callback will be triggered when counter will reach zero.
+    </p>
+
+    <button class="btn btn-default" type="button" ng-click="vm.changeDate()">Change Date</button>
+
+    <hr>
+
+
+    <h2>Past Date</h2>
+
+    <p class="text-info">Past date is displayed like forward-counting timer.</p>
+
+    <ul class="timer list-unstyled row well" bs-time-counter date="vm.pastDate">
+        <li class="col-sm-1">
+            <span class="label label-info">{{ years }}</span><br>
+            years
+        </li>
+        <li class="col-sm-1">
+            <span class="label label-info">{{ months }}</span><br>
+            months
+        </li>
+        <li class="col-sm-1">
+            <span class="label label-info">{{ days }}</span><br>
+            days
+        </li>
+        <li class="col-sm-1">
+            <span class="label label-primary">{{ hours }}</span><br>
+            hours
+        </li>
+        <li class="col-sm-1">
+            <span class="label label-primary">{{ minutes }}</span><br>
+            minutes
+        </li>
+        <li class="col-sm-1">
+            <span class="label label-primary">{{ seconds }}</span><br>
+            seconds
+        </li>
+        <li class="col-sm-1">
+            <span class="label label-warning">{{ milliseconds }}</span><br>
+            milliseconds
+        </li>
+    </ul>
+
+
+    <script src="vendor/angular/angular.js"></script>
+    <script src="vendor/betsol-ng-time-counter/scripts/betsol-ng-time-counter.js"></script>
+    <script type="application/javascript">
+        (function (angular) {
+            'use strict';
+            angular
+                .module('betsol.timeCounter.test', [
+                    'betsol.timeCounter'
+                ])
+                .controller('TestController', function () {
+                    var vm = this;
+                    vm.pastDate = new Date(Date.now() - 3 * 60 * 60 * 1000);
+                    vm.futureDate = new Date(Date.now() + 3 * 60 * 60 * 1000);
+                    vm.countdownComplete = function () {
+                        alert('Countdown finished!');
+                    };
+                    vm.changeDate = function () {
+                        vm.futureDate = new Date(Date.now() + 10 * 1000);
+                    };
+                })
+            ;
+        })(angular);
+    </script>
+
+</body>
+
+</html>

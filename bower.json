@@ -1,0 +1,32 @@
+{
+  "name": "betsol-ng-time-counter",
+  "description": "Minimalistic time-counter for Angular.js",
+  "version": "1.0.0",
+  "main": "dist/betsol-ng-time-counter.js",
+  "ignore": [
+    "src",
+    "test",
+    ".*",
+    "gulpfile.js",
+    "karma.conf.js",
+    "package.json"
+  ],
+  "dependencies": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/betsol/ng-time-counter.git"
+  },
+  "keywords": [
+    "betsol",
+    "angular",
+    "angular.js",
+    "directive",
+    "time",
+    "date",
+    "dates",
+    "counter",
+    "countdown",
+    "timer"
+  ]
+}
