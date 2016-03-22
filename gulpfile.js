@@ -22,12 +22,15 @@ var runSequence = require('run-sequence');
 var KarmaServer = require('karma').Server;
 var jshint = require('gulp-jshint');
 var serverFactory = require('spa-server');
+var deploy = require('gulp-gh-pages');
+var ncp = require('ncp').ncp;
 
 
 //=========//
 // GLOBALS //
 //=========//
 
+const DEPLOY_TEMP_PATH = './.deploy';
 const DEMO_PATH = './demo';
 
 
@@ -153,3 +156,11 @@ gulp.task('demo:deploy:after', function () {
 gulp.task('default', function (done) {
   runSequence('build', done);
 });
+
+
+/**
+ * Clears temp directory.
+ */
+function deployClearTemp () {
+  return del([DEPLOY_TEMP_PATH, './.publish']);
+}
