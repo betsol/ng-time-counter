@@ -1,6 +1,6 @@
 /**
  * betsol-ng-time-counter - Minimalistic time-counter for Angular.js
- * @version v1.1.0
+ * @version v1.1.1
  * @link https://github.com/betsol/ng-time-counter
  * @license MIT
  *
@@ -105,6 +105,11 @@
 
             } else {
               // Setting difference to zero if date is not provided.
+              diffMs = 0;
+            }
+
+            // Making sure difference is adjusted correctly if timer should be stopped.
+            if (isCounterShouldBeStopped()) {
               diffMs = 0;
             }
 
