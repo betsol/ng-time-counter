@@ -16,17 +16,18 @@ It will do it's work and will not stand in your way!
 - Can be used as a countdown timer as well as forward-counting one
 - It transcludes a part of your own HTML, so the view could be fully customized
 - Update interval is configurable
-- It doesn't contain any national strings, so you could fully internationalize it
+- It doesn't contain any national strings, so you could fully internationalize it,
   using approach, selected in your own application
 - Finish callback for countdown timers is available
-- Target date can be changed dynamically, the component will update itself accordingly
+- Target date and counting direction could be changed dynamically,
+  the component will update itself accordingly
 
 
 ## Installation
 
 ### Install library with *npm*
 
-`npm i --save betsol-ng-time-counter`
+`npm i -S betsol-ng-time-counter`
 
 
 ### Install library with *Bower*
@@ -59,6 +60,10 @@ Add `bs-time-counter` directive to one of your container elements.
 
 Provide reference to a `Date` object instance using `date` attribute of the same element.
 
+Optionally, provide the counting direction using `direction` attribute, which could be set to either `up` or `down`.
+Skip this attribute to use auto-detection mechanism, i.e. future date will make the timer a countdown one,
+while past date will make it a forward-counting one.
+
 Use scope properties from [this table](#exposed-scope-properties) to display time unit values inside of your container.
 
 
@@ -66,7 +71,7 @@ Use scope properties from [this table](#exposed-scope-properties) to display tim
 
 ```html
 <div ng-controller="MyCtrl as vm">
-    <ul bs-time-counter date="vm.someDate">
+    <ul bs-time-counter date="vm.futureDate" direction="'down'">
         <li>{{ hours }} hours</li>
         <li>{{ minutes }} minutes</li>
         <li>{{ seconds }} seconds</li>
@@ -81,7 +86,7 @@ angular
   ])
   .controller('MyCtrl', function () {
     var vm = this;
-    vm.someDate = new Date();
+    vm.futureDate = new Date('2026-08-16T06:17:00');
   })
 ;
 ```
@@ -93,11 +98,58 @@ Please see [the demo][demo] for more examples and features.
 
 ### Directive options
 
-| Option   | Default      | Description
-| -------- | ------------ | ------------------------------------------------------------------------------
-| date     | `new Date()` | A reference to the `Date` object instance, current date is used when skipped.
-| interval | `1000`       | How often to update the counter? In milliseconds.
-| onFinish | None         | An expression that will be evaluated when the countdown timer reaches zero.
+<table>
+    <tr>
+        <th>Option</th>
+        <th>Dynamic</th>
+        <th>Default</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>date</td>
+        <td>Yes</td>
+        <td>
+            Current date
+        </td>
+        <td>
+            A reference to the <code>Date</code> object instance, current date is used when skipped.
+        </td>
+    </tr>
+    <tr>
+        <td>direction</td>
+        <td>Yes</td>
+        <td>
+            Auto-detect
+        </td>
+        <td>
+            Counter direction, either <code>up</code> or <code>down</code>. Will be inferred from the date if not set.
+            Please see the <a href="#usage">usage</a> section.
+            If you want to pass it as a string in your template, make sure to surround it with single quotes.
+        </td>
+    </tr>
+    <tr>
+        <td>interval</td>
+        <td>No</td>
+        <td>
+            One second
+        </td>
+        <td>How often to update the counter? In milliseconds.</td>
+    </tr>
+    <tr>
+        <td>onFinish</td>
+        <td>Yes</td>
+        <td>
+            Do nothing
+        </td>
+        <td>An expression that will be evaluated when the countdown timer reaches zero.</td>
+    </tr>
+</table>
+
+> Dynamic properties are watched by the directive, therefore the directive
+> will update itself when their value will change.
+
+> If you want to pass a constant directly to a dynamic property from the template
+> you will have to surround the value in single quotes.
 
 
 ### Exposed scope properties

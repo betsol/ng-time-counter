@@ -1,7 +1,7 @@
 {
   "name": "betsol-ng-time-counter",
   "description": "Minimalistic time-counter for Angular.js",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "homepage": "https://github.com/betsol/ng-time-counter",
   "license": "MIT",
   "main": "index.js",

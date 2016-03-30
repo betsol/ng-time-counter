@@ -38,42 +38,14 @@
 
     <p class="text-info">Future date is displayed like countdown timer.</p>
 
-    <ul
-        class="timer list-unstyled row well"
+    <div
         bs-time-counter
         date="vm.futureDate"
         interval="100"
         on-finish="vm.countdownComplete()"
     >
-        <li class="col-sm-1">
-            <span class="label label-info">{{ years }}</span><br>
-            years
-        </li>
-        <li class="col-sm-1">
-            <span class="label label-info">{{ months }}</span><br>
-            months
-        </li>
-        <li class="col-sm-1">
-            <span class="label label-info">{{ days }}</span><br>
-            days
-        </li>
-        <li class="col-sm-1">
-            <span class="label label-primary">{{ hours }}</span><br>
-            hours
-        </li>
-        <li class="col-sm-1">
-            <span class="label label-primary">{{ minutes }}</span><br>
-            minutes
-        </li>
-        <li class="col-sm-1">
-            <span class="label label-primary">{{ seconds }}</span><br>
-            seconds
-        </li>
-        <li class="col-sm-1">
-            <span class="label label-warning">{{ milliseconds }}</span><br>
-            milliseconds
-        </li>
-    </ul>
+        <ng-include src="'~timer'"></ng-include>
+    </div>
 
     <p class="text-info">
         You can change date dynamically and timer will be updated accordingly.
@@ -92,36 +64,36 @@
 
     <p class="text-info">Past date is displayed like forward-counting timer.</p>
 
-    <ul class="timer list-unstyled row well" bs-time-counter date="vm.pastDate">
-        <li class="col-sm-1">
-            <span class="label label-info">{{ years }}</span><br>
-            years
-        </li>
-        <li class="col-sm-1">
-            <span class="label label-info">{{ months }}</span><br>
-            months
-        </li>
-        <li class="col-sm-1">
-            <span class="label label-info">{{ days }}</span><br>
-            days
-        </li>
-        <li class="col-sm-1">
-            <span class="label label-primary">{{ hours }}</span><br>
-            hours
-        </li>
-        <li class="col-sm-1">
-            <span class="label label-primary">{{ minutes }}</span><br>
-            minutes
-        </li>
-        <li class="col-sm-1">
-            <span class="label label-primary">{{ seconds }}</span><br>
-            seconds
-        </li>
-        <li class="col-sm-1">
-            <span class="label label-warning">{{ milliseconds }}</span><br>
-            milliseconds
-        </li>
-    </ul>
+    <div bs-time-counter date="vm.pastDate">
+        <ng-include src="'~timer'"></ng-include>
+    </div>
+
+
+    <h2>Custom Date</h2>
+
+    <p class="text-info">Counting direction and target date could be fully controlled.</p>
+
+    <div bs-time-counter date="vm.customDate" direction="vm.customDirection">
+        <ng-include src="'~timer'"></ng-include>
+    </div>
+
+    <button class="btn btn-default" type="button" ng-click="vm.customFutureUp()">
+        Future Date + Up
+    </button>
+
+    <button class="btn btn-default" type="button" ng-click="vm.customFutureDown()">
+        Future Date + Down
+    </button>
+
+    <button class="btn btn-default" type="button" ng-click="vm.customPastUp()">
+        Past Date + Up
+    </button>
+
+    <button class="btn btn-default" type="button" ng-click="vm.customPastDown()">
+        Past Date + Down
+    </button>
+
+    <br><br>
 
 
     <script src="vendor/angular/angular.js"></script>
@@ -133,19 +105,73 @@
                 .module('betsol.timeCounter.test', [
                     'betsol.timeCounter'
                 ])
-                .controller('TestController', function () {
+                .controller('TestController', function ($scope) {
                     var vm = this;
-                    vm.pastDate = new Date(Date.now() - 3 * 60 * 60 * 1000);
-                    vm.futureDate = new Date(Date.now() + 3 * 60 * 60 * 1000);
+                    var pastTime = Date.now() - 3 * 60 * 60 * 1000;
+                    var futureTime = Date.now() + 3 * 60 * 60 * 1000;
+                    vm.pastDate = new Date(pastTime);
+                    vm.futureDate = new Date(futureTime);
+                    vm.customDate = new Date();
+                    vm.customDirection = 'up';
                     vm.countdownComplete = function () {
                         alert('Countdown finished!');
                     };
                     vm.changeDate = function () {
                         vm.futureDate = new Date(Date.now() + 10 * 1000);
                     };
+                    vm.customFutureUp = function () {
+                        vm.customDate = new Date(Date.now() + 10 * 1000);
+                        vm.customDirection = 'up';
+                    };
+                    vm.customFutureDown = function () {
+                        vm.customDate = new Date(Date.now() + 10 * 1000);
+                        vm.customDirection = 'down';
+                    };
+                    vm.customPastUp = function () {
+                        vm.customDate = new Date(Date.now() - 10 * 1000);
+                        vm.customDirection = 'up';
+                    };
+                    vm.customPastDown = function () {
+                        vm.customDate = new Date(Date.now() - 10 * 1000);
+                        vm.customDirection = 'down';
+                    };
                 })
             ;
         })(angular);
+    </script>
+
+
+    <script type="text/ng-template" id="~timer">
+        <ul class="timer list-unstyled row well">
+            <li class="col-sm-1">
+                <span class="label label-info">{{ years }}</span><br>
+                years
+            </li>
+            <li class="col-sm-1">
+                <span class="label label-info">{{ months }}</span><br>
+                months
+            </li>
+            <li class="col-sm-1">
+                <span class="label label-info">{{ days }}</span><br>
+                days
+            </li>
+            <li class="col-sm-1">
+                <span class="label label-primary">{{ hours }}</span><br>
+                hours
+            </li>
+            <li class="col-sm-1">
+                <span class="label label-primary">{{ minutes }}</span><br>
+                minutes
+            </li>
+            <li class="col-sm-1">
+                <span class="label label-primary">{{ seconds }}</span><br>
+                seconds
+            </li>
+            <li class="col-sm-1">
+                <span class="label label-warning">{{ milliseconds }}</span><br>
+                milliseconds
+            </li>
+        </ul>
     </script>
 
 </body>

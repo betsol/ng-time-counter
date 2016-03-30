@@ -1,6 +1,6 @@
 /**
  * betsol-ng-time-counter - Minimalistic time-counter for Angular.js
- * @version v1.0.0
+ * @version v1.1.0
  * @link https://github.com/betsol/ng-time-counter
  * @license MIT
  *
@@ -28,6 +28,7 @@
         restrict: 'EAC',
         scope: {
           date: '=',
+          direction: '=',
           onFinish: '&',
           interval: '@'
         },
@@ -48,61 +49,138 @@
         controller: ['$scope', '$interval', '$timeout', function ($scope, $interval, $timeout) {
 
           var diffMs;
-          var countdown;
+          var countingDown;
           var intervalPromise;
           var intervalMs = (parseInt($scope.interval) || 1000);
 
-          $scope.$watch('date', syncDate);
 
-          /**
-           * Starting the counter's loop.
-           */
-          intervalPromise = $interval(function () {
-
-            diffMs += intervalMs;
-
-            if (countdown && diffMs >= 0) {
-              diffMs = 0;
-              $interval.cancel(intervalPromise);
-              $timeout(function () {
-                $scope.onFinish();
-                // @todo: fire finished event
-              });
-            }
-
-            render();
-
-          }, intervalMs);
-
-          /**
-           * Cleaning up when directive is destroyed.
-           */
+          // Cleaning up when directive is destroyed.
           $scope.$on('$destroy', function () {
             // Stopping the loop implicitly when directive is destroyed.
-            $interval.cancel(intervalPromise);
+            clearCounter();
           });
 
+          $scope.$watch('date', onWatchedPropertyChanged);
+          $scope.$watch('direction', onWatchedPropertyChanged);
+
+          // Syncing properties initially.
+          syncProperties();
+
+
+          function onWatchedPropertyChanged (newValue, oldValue) {
+            if (newValue !== oldValue) {
+              syncProperties();
+            }
+          }
 
           /**
            * Making sure our counter reflects the correct date.
            */
-          function syncDate () {
-            if ($scope.date instanceof Date) {
-              var now = new Date();
-              diffMs = now.getTime() - $scope.date.getTime();
-              countdown = (diffMs < 0);
-            } else {
-              diffMs = 0;
-              countdown = false;
+          function syncProperties () {
+
+            // Setting new value for direction.
+            switch ($scope.direction) {
+              case 'up':
+                countingDown = false;
+                break;
+              case 'down':
+                countingDown = true;
+                break;
+              default:
+                countingDown = undefined;
+                break;
             }
+
+            // Updating internal time difference.
+            if ($scope.date instanceof Date) {
+
+              // Calculating difference between current date and target date.
+              var now = new Date();
+              diffMs = (now.getTime() - $scope.date.getTime());
+
+              // Auto-detecting direction if not set explicitly.
+              if ('undefined' === typeof countingDown) {
+                countingDown = (diffMs < 0);
+              }
+
+            } else {
+              // Setting difference to zero if date is not provided.
+              diffMs = 0;
+            }
+
+            // Updating the view with new value.
             render();
+
+            // Making sure counter is ticking.
+            if (!isCounterShouldBeStopped()) {
+              startCounter();
+            }
+
           }
 
           /**
            * Updating the view with the actual data.
            */
           function render () {
-            angular.extend($scope, diffMsToTimeUnits(diffMs));
+            var valueToRender = diffMs;
+            if (false === countingDown && diffMs < 0) {
+              // Rendering counter as zero when counting up and
+              // target date is in the future.
+              valueToRender = 0;
+            }
+            angular.extend($scope, diffMsToTimeUnits(valueToRender));
+          }
+
+          /**
+           * Starts or re-starts the counter loop.
+           */
+          function startCounter () {
+            if (intervalPromise) {
+              clearCounter();
+            }
+            intervalPromise = $interval(counterTick, intervalMs);
+          }
+
+          /**
+           * Stops the counter loop.
+           */
+          function clearCounter () {
+            $interval.cancel(intervalPromise);
+            intervalPromise = null;
+          }
+
+          /**
+           * Counter tick handler.
+           */
+          function counterTick () {
+
+            // Updating internal difference value.
+            diffMs += intervalMs;
+
+            // Checking if counter should be stopped.
+            if (isCounterShouldBeStopped()) {
+              diffMs = 0;
+              clearCounter();
+              $timeout(function () {
+                $scope.onFinish();
+                // @todo: fire finished event
+              });
+            }
+
+            // Updating the view.
+            render();
+
+          }
+
+          /**
+           * Indicates if counter should be stopped.
+           *
+           * @returns {boolean}
+           */
+          function isCounterShouldBeStopped () {
+            // No need to run counter when counting down and
+            // target date is already reached.
+            return (countingDown && diffMs >= 0);
           }
 
         }]
