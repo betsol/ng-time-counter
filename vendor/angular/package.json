@@ -1,37 +1,41 @@
 {
   "_args": [
     [
-      "angular@1.2.29",
+      "angular@1.5.2",
       "/home/sfomin/projects/betsol-ng-time-counter"
     ]
   ],
-  "_from": "angular@1.2.29",
-  "_id": "angular@1.2.29",
+  "_from": "angular@1.5.2",
+  "_id": "angular@1.5.2",
   "_inCache": true,
   "_installable": true,
   "_location": "/angular",
-  "_nodeVersion": "0.10.26",
+  "_nodeVersion": "4.4.0",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/angular-1.5.2.tgz_1458341949922_0.7699444768950343"
+  },
   "_npmUser": {
     "email": "angular-core+npm@google.com",
     "name": "angularcore"
   },
-  "_npmVersion": "2.0.2",
+  "_npmVersion": "2.14.20",
   "_phantomChildren": {},
   "_requested": {
     "name": "angular",
-    "raw": "angular@1.2.29",
-    "rawSpec": "1.2.29",
+    "raw": "angular@1.5.2",
+    "rawSpec": "1.5.2",
     "scope": null,
-    "spec": "1.2.29",
+    "spec": "1.5.2",
     "type": "version"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/angular/-/angular-1.2.29.tgz",
-  "_shasum": "4909377312037404612007f6efcf329b620b22af",
+  "_resolved": "https://registry.npmjs.org/angular/-/angular-1.5.2.tgz",
+  "_shasum": "89c98e2bc778669755713161cdd991b326139fb4",
   "_shrinkwrap": null,
-  "_spec": "angular@1.2.29",
+  "_spec": "angular@1.5.2",
   "_where": "/home/sfomin/projects/betsol-ng-time-counter",
   "author": {
     "email": "angular-core+npm@google.com",
@@ -45,10 +49,10 @@
   "devDependencies": {},
   "directories": {},
   "dist": {
-    "shasum": "4909377312037404612007f6efcf329b620b22af",
-    "tarball": "http://registry.npmjs.org/angular/-/angular-1.2.29.tgz"
+    "shasum": "89c98e2bc778669755713161cdd991b326139fb4",
+    "tarball": "http://registry.npmjs.org/angular/-/angular-1.5.2.tgz"
   },
-  "gitHead": "adf9e91df1d6196fadc9e5153cbe88433172235c",
+  "gitHead": "bec191cd9fe2a09cc76810f41c6c9da9a622fdcb",
   "homepage": "http://angularjs.org",
   "keywords": [
     "angular",
@@ -82,5 +86,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.2.29"
+  "version": "1.5.2"
 }
