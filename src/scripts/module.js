@@ -100,6 +100,11 @@
               diffMs = 0;
             }
 
+            // Making sure difference is adjusted correctly if timer should be stopped.
+            if (isCounterShouldBeStopped()) {
+              diffMs = 0;
+            }
+
             // Updating the view with new value.
             render();
 

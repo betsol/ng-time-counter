@@ -1,5 +1,12 @@
 # betsol-ng-time-counter changelog
 
+## Version 1.1.1
+(31 Mar 2016)
+
+- Fixed non-critical optimization issue when timer shouldn't be started at all
+  during initialization
+
+
 ## Version 1.1.0
 (31 Mar 2016)
 
